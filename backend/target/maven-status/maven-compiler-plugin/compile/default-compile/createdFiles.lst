@@ -1,0 +1,15 @@
+com\career\copilot\model\JobApplication$ApplicationStatus.class
+com\career\copilot\CareerCopilotApplication$1.class
+com\career\copilot\repository\RoadmapTaskRepository.class
+com\career\copilot\model\JobApplication.class
+com\career\copilot\model\UserProfile$UserProfileBuilder.class
+com\career\copilot\service\AiIntegrationService.class
+com\career\copilot\model\RoadmapTask.class
+com\career\copilot\service\CareerDashboardService.class
+com\career\copilot\CareerCopilotApplication.class
+com\career\copilot\model\UserProfile.class
+com\career\copilot\controller\CareerController.class
+com\career\copilot\model\JobApplication$JobApplicationBuilder.class
+com\career\copilot\repository\UserProfileRepository.class
+com\career\copilot\model\RoadmapTask$RoadmapTaskBuilder.class
+com\career\copilot\repository\JobApplicationRepository.class
