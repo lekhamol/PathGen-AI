@@ -8,7 +8,8 @@ import {
   Award, 
   Zap, 
   Target,
-  Sparkles
+  Sparkles,
+  Mic
 } from 'lucide-react';
 
 export default function Dashboard({ 
