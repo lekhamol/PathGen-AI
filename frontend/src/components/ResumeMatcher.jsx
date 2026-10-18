@@ -57,6 +57,7 @@ export default function ResumeMatcher({
   const [targetRole, setTargetRole] = useState("Full Stack Engineer");
   const [loading, setLoading] = useState(false);
   const [uploadLoading, setUploadLoading] = useState(false);
+  const [uploadError, setUploadError] = useState(null);
   const [matchResult, setMatchResult] = useState(null);
   const [analysisResult, setAnalysisResult] = useState(null);
   const [activeSubTab, setActiveSubTab] = useState('match'); // 'match' or 'resume'
@@ -67,15 +68,20 @@ export default function ResumeMatcher({
     if (!file) return;
 
     setUploadLoading(true);
+    setUploadError(null);
     try {
       const data = await api.parsePdf(file);
       if (data?.text) {
         setResumeText(data.text);
+      } else {
+        setUploadError("PDF parsed but no text was extracted. The file may be scanned/image-based. Please paste your resume text manually.");
       }
     } catch (err) {
-      alert("Failed to parse PDF resume directly. You can paste the resume text in the box below!");
+      setUploadError(err.message || "Failed to upload PDF. You can paste your resume text below instead.");
     } finally {
       setUploadLoading(false);
+      // Reset file input so same file can be re-uploaded
+      e.target.value = '';
     }
   };
 
@@ -175,6 +181,22 @@ export default function ResumeMatcher({
             placeholder="Paste your full resume here or upload a PDF..."
             className="w-full text-xs font-mono p-3 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 resize-y leading-relaxed text-slate-800"
           />
+
+          {/* Inline upload error banner */}
+          {uploadError && (
+            <div className="flex items-start gap-2 p-3 rounded-lg bg-rose-50 border border-rose-200 text-xs text-rose-700">
+              <AlertCircle className="w-4 h-4 mt-0.5 shrink-0 text-rose-500" />
+              <div>
+                <span className="font-semibold">Upload failed: </span>
+                {uploadError}
+              </div>
+              <button
+                onClick={() => setUploadError(null)}
+                className="ml-auto text-rose-400 hover:text-rose-600 font-bold text-base leading-none"
+                title="Dismiss"
+              >×</button>
+            </div>
+          )}
         </div>
 
         {/* Job Description Panel */}
