@@ -43,11 +43,23 @@ export const api = {
   parsePdf: async (file) => {
     const formData = new FormData();
     formData.append('file', file);
-    const response = await fetch(`${PYTHON_BASE_URL}/resume/parse`, {
-      method: 'POST',
-      body: formData
-    });
-    if (!response.ok) throw new Error('Failed to parse PDF file');
+    let response;
+    try {
+      response = await fetch(`${PYTHON_BASE_URL}/resume/parse`, {
+        method: 'POST',
+        body: formData
+      });
+    } catch (networkErr) {
+      throw new Error('Cannot reach the AI service at http://localhost:8000. Please ensure the Python service is running.');
+    }
+    if (!response.ok) {
+      let detail = 'Failed to parse PDF file';
+      try {
+        const errBody = await response.json();
+        detail = errBody.detail || detail;
+      } catch (_) {}
+      throw new Error(detail);
+    }
     return await response.json();
   },
 
